@@ -1,2 +1,0 @@
-# FellowNetExp
-NYU Cyberfellows Networking
