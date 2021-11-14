@@ -72,7 +72,7 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
 
 def sendOnePing(mySocket, destAddr, ID):
     # Header is type (8), code (8), checksum (16), id (16), sequence (16)
-    destAddr = '127.0.0.1'
+    #destAddr = '127.0.0.1'
 
     myChecksum = 0
     # Make a dummy header with a 0 checksum
@@ -132,7 +132,7 @@ def ping(host, timeout=1):
     theSum = sum(timeRTT)
     theLen = len(timeRTT)
     packet_avg = theSum/theLen
-    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)),str(round(statistics.stdev(timeRTT), 2))]
+    vars = [str(round(packet_min, 2)), str(round(packet_avg, 2)), str(round(packet_max, 2)), str(round(statistics.stdev(timeRTT), 2))]
 
     return vars
 
