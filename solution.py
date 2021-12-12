@@ -54,12 +54,12 @@ def build_packet():
     data = struct.pack("d", time.time())
     myChecksum = checksum(header + data)
 
-    if sys.platform == 'darwin':
-        myChecksum = htons(myChecksum) & 0xffff
-    else:
-        myChecksum = htons(myChecksum)
+    #if sys.platform == 'darwin':
+        #myChecksum = htons(myChecksum) & 0xffff
+    #else:
+        #myChecksum = htons(myChecksum)
 
-    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
+    header = struct.pack("!bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
     # So the function ending should look like this
 
     packet = header + data
@@ -69,10 +69,10 @@ def get_route(hostname):
     timeLeft = TIMEOUT
     tracelist1 = [] #This is your list to use when iterating through each trace
     tracelist2 = [] #This is your list to contain all traces
+    destAddr = gethostbyname(hostname)
 
     for ttl in range(1, MAX_HOPS):
         for tries in range(TRIES):
-            destAddr = gethostbyname(hostname)
 
 
             #Fill in start
@@ -108,10 +108,9 @@ def get_route(hostname):
                     #Fill in end
             except timeout:
                 continue
-
             else:
                 #Fill in start
-                header = recvPacket[28:28]
+                header = recvPacket[20:28]
                 #Fetch the icmp type from the IP packet
                 types = struct.unpack("!BBHHH", header)
                 #Fill in end
