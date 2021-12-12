@@ -49,7 +49,7 @@ def build_packet():
     # Don’t send the packet yet , just return the final packet in this function.
     #Fill in end
     myChecksum = 0
-    ID = os.getpid() & 0xFFFF
+    ID = os.getpid() & 0xffff
     header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
     data = struct.pack("d", time.time())
     myChecksum = checksum(header + data)
@@ -70,7 +70,7 @@ def get_route(hostname):
     tracelist1 = [] #This is your list to use when iterating through each trace
     tracelist2 = [] #This is your list to contain all traces
 
-    for ttl in range(1,MAX_HOPS):
+    for ttl in range(1, MAX_HOPS):
         for tries in range(TRIES):
             destAddr = gethostbyname(hostname)
 
@@ -87,7 +87,7 @@ def get_route(hostname):
             try:
                 d = build_packet()
                 mySocket.sendto(d, (hostname, 0))
-                t= time.time()
+                t = time.time()
                 startedSelect = time.time()
                 whatReady = select.select([mySocket], [], [], timeLeft)
                 howLongInSelect = (time.time() - startedSelect)
@@ -113,7 +113,7 @@ def get_route(hostname):
                 #Fill in start
                 header = recvPacket[28:28]
                 #Fetch the icmp type from the IP packet
-                types, code, checksum, ID, seq = struct.unpack("!BBHHH", header)
+                types = struct.unpack("!BBHHH", header)
                 #Fill in end
                 try: #try to fetch the hostname
                     destAddr = gethostbyname(hostname)
@@ -129,26 +129,26 @@ def get_route(hostname):
                 if types == 11:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 +
-                    bytes])[8]
+                    bytes])[0]
                     #Fill in start
                     tracelist1.append(timeSent)
-                    tracelist2.append(timeSent)
+                    #tracelist2.append(timeSent)
                     #You should add your responses to your lists here
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
-                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[8]
+                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     tracelist1.append(timeSent)
-                    tracelist2.append(timeSent)
+                    #tracelist2.append(timeSent)
                     #You should add your responses to your lists here
                     #Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
-                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[8]
+                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
                     #Fill in start
                     tracelist1.append(timeSent)
-                    tracelist2.append(timeSent)
+                    #tracelist2.append(timeSent)
                     #You should add your responses to your lists here and return your list if your destination IP is met
                     #Fill in end
                 else:
