@@ -129,7 +129,7 @@ def get_route(hostname):
                 if types == 11:
                     bytes = struct.calcsize("d")
                     timeSent = struct.unpack("d", recvPacket[28:28 +
-                    bytes])[0]
+                    bytes])[8]
                     #Fill in start
                     tracelist1.append(timeSent)
                     tracelist2.append(timeSent)
@@ -137,7 +137,7 @@ def get_route(hostname):
                     #Fill in end
                 elif types == 3:
                     bytes = struct.calcsize("d")
-                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
+                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[8]
                     #Fill in start
                     tracelist1.append(timeSent)
                     tracelist2.append(timeSent)
@@ -145,7 +145,7 @@ def get_route(hostname):
                     #Fill in end
                 elif types == 0:
                     bytes = struct.calcsize("d")
-                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[0]
+                    timeSent = struct.unpack("d", recvPacket[28:28 + bytes])[8]
                     #Fill in start
                     tracelist1.append(timeSent)
                     tracelist2.append(timeSent)
